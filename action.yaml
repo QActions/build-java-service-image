@@ -1,0 +1,18 @@
+name: Build Java Service Image
+description: Compiles a default Extra Horizon Java service and builds its Docker image
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+        cache: 'maven'
+
+    - name: Compile
+      shell: bash
+      run: mvn --batch-mode clean install
+
+    - name: Build the Docker image
+      shell: bash
+      run: docker build -t service .
